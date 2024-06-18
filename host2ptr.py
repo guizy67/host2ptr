@@ -26,16 +26,16 @@ Example output format of 1 entry:
       "zonename": "36.168.192.in-addr.arpa",
       "lastoctet": "98",
       "names": [
-        "21667-mtr-en1001",
-        "21667-mtr-en1001.ip.nl.tmo"
+        "xxxxxxxxxxxxx001",
+        "xxxxxxxxxxxxx001.example.com"
       ],
       "hosts": [
-        "21667-mtr-en1001.ip.nl.tmo",
-        "21667-mtr-en1001.ip.nl.tmo"
+        "xxxxxxxxxxxxx001.example.com",
+        "xxxxxxxxxxxxx001.example.com"
       ],
-      "fqdn": "21667-mtr-en1001.ip.nl.tmo",
-      "comment": "# VULA TMT/Tele2 BNG Asn-C",
-      "ptr_record": "98  IN PTR  21667-mtr-en1001.ip.nl.tmo.    ;VULA TMT/Tele2 BNG Asn-C"
+      "fqdn": "xxxxxxxxxxxxx001.example.com",
+      "comment": "# Comment from hosts file",
+      "ptr_record": "98  IN PTR  xxxxxxxxxxxxx001.example.com.    ;Comment from hosts file"
     }
   ],
 """
