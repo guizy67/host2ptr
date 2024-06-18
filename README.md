@@ -53,6 +53,7 @@ The JSON output format for a single entry looks like this:
         "ptr_record": "98  IN PTR  xxxxxxxxxxxxx001.example.com.    ;Comment from hosts file"
     }
 ]
+```
 
 
 ## `gen-zone.py` Utility
@@ -122,4 +123,5 @@ The input JSON file should be in the following format:
     }
   ]
 ]
+```
 
