@@ -66,13 +66,14 @@ This script reads a JSON file containing PTR record data and generates DNS zone 
 
 - Python 3.6+
 - `json` module (included in the standard library)
+- `sys` module (included in the standard library)
 
 ## Usage
 
 1. Ensure you have the JSON file `hostfile-converted-ptr-data.json` in the same directory as the script.
 2. Run the script:
     ```bash
-    ./gen-zone.py
+    ./gen-zone.py <input-file>
     ```
 3. The script will generate zone files named `<zonename>.db` for each unique `zonename` found in the JSON file.
 
@@ -125,3 +126,9 @@ The input JSON file should be in the following format:
 ]
 ```
 
+
+## License
+This script is provided "as is" without any warranty. Use it at your own risk.
+
+## Author
+G Fontaine
