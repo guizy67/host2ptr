@@ -11,10 +11,10 @@ line are kept as the comment for that entry.
 A default subdomain is used to fill in when none is present in the hostname for
 a particular IP address. The generated PTR record always contains a FQDN.
 
-Although this script correctly identifies valid IPv6 addresses, it does generate
-correct PTR records for those entries.
+This script currently only checks for valid IPv4 addresses and should only be
+used for IPv4 /etc/hosts files.
 
-This script should only be used for IPv4 /etc/hosts files.
+(#TODO: add IPv6 support)
 
 The output is a JSON file that can easily be parsed to generate a zonefile.
 Example output format of 1 entry:
@@ -44,20 +44,35 @@ import re
 import json
 import ipaddress
 from collections import defaultdict
+import sys
 
-# Default domain to append to short names
-default_domain = 'ip.nl.tmo'
+# Check if the input file is provided as a command-line argument
+if len(sys.argv) != 2:
+    print(f"Usage: {sys.argv[0]} <input_file>")
+    sys.exit(1)
+
+filename = sys.argv[1]
 
 # Function to check if we have a valid IP
 def is_valid_ip(ip_str):
     try:
-        ipaddress.ip_address(ip_str)
+        ipaddress.IPv4Address(ip_str)
         return True
     except ValueError:
         return False
 
-# File containing unfiltered hosts file input
-filename = 'raw-hosts-files.txt'
+# Function to output records by netname
+def output_records_by_netname(netname):
+    records = grouped_records.get(netname, [])
+    if records:
+        print(f"Records with netname '{netname}':")
+        for record in records:
+            print(json.dumps(record, indent=2))
+    else:
+        print(f"No records found with netname '{netname}'.")
+
+# Default domain to append to short names
+default_domain = 'ip.nl.tmo'
 
 # Read and clean up the input lines
 with open(filename) as file:
@@ -103,6 +118,9 @@ for line in lines:
         fqdn = hosts[0]  # Assuming the first host as the primary FQDN
         ptr_record = f"{last_octet}  IN PTR  {fqdn}.    ;{comment}"
 
+        rev_octs = '.'.join(ip_parts[::-1])
+        full_rec = f"{rev_octs}.in-addr.arpa. IN PTR  {fqdn}.   ; {comment}"
+
         # Create a record dictionary
         record = {
             'ipaddr': ipaddr,
@@ -113,7 +131,8 @@ for line in lines:
             'hosts': hosts,
             'fqdn': fqdn,
             'comment': '# ' + comment,
-            'ptr_record': ptr_record
+            'ptr_record': ptr_record,
+            'full_record': full_rec
         }
 
         # Add the record to data dictionary if IP is not already present
@@ -133,15 +152,5 @@ grouped_records = defaultdict(list)
 for ip, record in sorted_data:
     grouped_records[record['netname']].append(record)
 
-# Function to output records by netname
-def output_records_by_netname(netname):
-    records = grouped_records.get(netname, [])
-    if records:
-        print(f"Records with netname '{netname}':")
-        for record in records:
-            print(json.dumps(record, indent=2))
-    else:
-        print(f"No records found with netname '{netname}'.")
-
 # Example usage: output records with a specific netname
-output_records_by_netname("10.0.240")
+output_records_by_netname("192.168.100")

@@ -5,7 +5,7 @@ import sys
 
 # Check if the input file is provided as a command-line argument
 if len(sys.argv) != 2:
-    print("Usage: ./gen-zone.py <input_file>")
+    print(f"Usage: {sys.argv[0]} <input_file>")
     sys.exit(1)
 
 input_file = sys.argv[1]
