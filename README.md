@@ -4,7 +4,7 @@ This script parses a Unix-style `/etc/hosts` file to extract valid IP addresses 
 
 ## Features
 
-- Parses `/etc/hosts` file to extract IP addresses and hostnames.
+- Parses `/etc/hosts` syntax text file to extract IP addresses and hostnames.
 - Generates PTR records for DNS reverse lookup.
 - Supports adding a default domain to short hostnames.
 - Retains comments from the `/etc/hosts` file.
@@ -21,10 +21,12 @@ This script parses a Unix-style `/etc/hosts` file to extract valid IP addresses 
 
 ## Usage
 
-1. Ensure you have a `/etc/hosts` style file named `raw-hosts-files.txt` in the same directory as the script.
+Usage: `./host2ptr.py <host_file>`
+
+1. Ensure you have a `/etc/hosts` syntax style file for your input.
 2. Run the script:
     ```bash
-    ./host2ptr.py
+    ./host2ptr.py my-hostfile.txt
     ```
 3. The script will generate a JSON file named `hostfile-converted-ptr-data.json` containing the processed data.
 
@@ -73,7 +75,7 @@ This script reads a JSON file containing PTR record data and generates DNS zone 
 1. Ensure you have the JSON file `hostfile-converted-ptr-data.json` in the same directory as the script.
 2. Run the script:
     ```bash
-    ./gen-zone.py <input-file>
+    ./gen-zone.py <json_file>
     ```
 3. The script will generate zone files named `<zonename>.db` for each unique `zonename` found in the JSON file.
 
