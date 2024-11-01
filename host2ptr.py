@@ -53,6 +53,11 @@ if len(sys.argv) != 2:
 
 filename = sys.argv[1]
 
+## CHANGE THIS IF NEEDED
+# Default domain to append to short names
+default_domain = 'ip.nl.tmo'
+##
+
 # Function to check if we have a valid IP
 def is_valid_ip(ip_str):
     try:
@@ -70,9 +75,6 @@ def output_records_by_netname(netname):
             print(json.dumps(record, indent=2))
     else:
         print(f"No records found with netname '{netname}'.")
-
-# Default domain to append to short names
-default_domain = 'ip.nl.tmo'
 
 # Read and clean up the input lines
 with open(filename) as file:
